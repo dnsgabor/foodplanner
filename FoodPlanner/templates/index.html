@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <a href="{{ url_for('add_recipe') }}">Add New Recipe</a>
+
+    <form method="get" action="{{ url_for('index') }}">
+        <label for="attribute">Filter by attribute:</label>
+        <input type="text" name="attribute" placeholder="e.g. dessert, soup" value="{{ attribute or '' }}">
+        <input type="submit" value="Filter">
+        {% if attribute %}
+            <a href="{{ url_for('index') }}">Clear filter</a>
+        {% endif %}
+    </form>
+
+    <ul>
+    {% for recipe in recipes %}
+        <li>
+            <a href="{{ url_for('view_recipe', recipe_id=recipe.id) }}">{{ recipe.title }}</a>
+            {% if recipe.attributes %}
+                <small>({{ recipe.attributes | join(", ") }})</small>
+            {% endif %}
+        </li>
+    {% else %}
+        <li>No recipes available</li>
+    {% endfor %}
+    </ul>
+{% endblock %}
+

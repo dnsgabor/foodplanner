@@ -1,0 +1,142 @@
+[
+    {
+        "id": "6e596c11-5a56-40bf-ae1e-c135c03040f7",
+        "title": "Spaghetti Bolognese",
+        "ingredients": [
+            "spaghetti",
+            "minced beef",
+            "tomato sauce",
+            "onion"
+        ],
+        "instructions": "Cook the spaghetti and mix with sauce.",
+        "attributes": [],
+        "url": ""
+    },
+    {
+        "id": "883d618d-888d-400d-954b-a719c5355306",
+        "title": "Pancakes",
+        "ingredients": [
+            "flour",
+            "milk",
+            "eggs",
+            "butter",
+            "baking powder"
+        ],
+        "instructions": "Mix ingredients and cook in a pan.",
+        "attributes": [
+            "dessert",
+            "easy"
+        ],
+        "url": ""
+    },
+    {
+        "id": "38c98686-6d19-4f19-8771-418d8bdd61d9",
+        "title": "Lemon Layer Cake with Lemon Cream Cheese Buttercream",
+        "ingredients": [
+            "3 cups (354g) sifted all-purpose flour* (spooned & leveled)",
+            "2 and 1/2 teaspoons baking powder",
+            "1/2 teaspoon baking soda",
+            "1/2 teaspoon salt",
+            "1 cup (16 Tbsp; 226g) unsalted butter, softened to room temperature",
+            "1 and 3/4 cups (350g) granulated sugar",
+            "3 large eggs, at room temperature",
+            "2 teaspoons pure vanilla extract",
+            "1 cup (240ml) whole milk, at room temperature",
+            "1 heaping Tablespoon lemon zest (about 2 lemons)",
+            "1/3 cup (80ml) fresh lemon juice (about 2 lemons)",
+            "1 cup (16 Tbsp; 226g) unsalted butter, softened to room temperature",
+            "8 ounces (226g) full-fat brick cream cheese, softened to room temperature*",
+            "4 and 1/2 cups (540g) confectioners\u2019 sugar",
+            "2 Tablespoons (30ml) fresh lemon juice",
+            "1 teaspoon pure vanilla extract",
+            "pinch salt, to taste"
+        ],
+        "instructions": "Preheat oven to 350\u00b0F (177\u00b0C). Grease three 8-inch cake pans, line with parchment paper rounds, then grease the parchment paper. Parchment paper helps the cakes seamlessly release from the pans. (If it\u2019s helpful, see this parchment paper rounds for cakes video & post.)\nMake the cake:\nWhisk the flour, baking powder, baking soda, and salt together. Set aside.\nUsing a handheld or stand mixer fitted with a paddle or whisk attachment, beat the butter and sugar together on high speed until smooth and creamy, about 3 minutes. Scrape down the sides and up the bottom of the bowl with a rubber spatula as needed. Beat in the eggs and vanilla extract on high speed until combined, about 2 minutes. Scrape down the sides and up the bottom of the bowl as needed. With the mixer on low speed, add the dry ingredients just until combined. With the mixer still running on low, add the milk, lemon zest, and lemon juice and mix just until combined. You may need to whisk it all by hand to make sure there are no lumps at the bottom of the bowl. The batter will be a little thick.\nPour batter evenly into cake pans. Bake for around 21-26 minutes or until the cakes are baked through. To test for doneness, insert a toothpick into the center of the cake. If it comes out clean, it\u2019s done. Allow cakes to cool completely in the pans set on a wire rack. The cakes must be completely cool before frosting and assembling. The baked cakes are fluffy, but they are not thick\u2014about 1 \u2013 1.5 inches.\nMake the frosting:\nIn a large bowl using a hand-held mixer or stand mixer fitted with a whisk or paddle attachment, beat the butter on medium speed until creamy, about 2 minutes. Add the cream cheese and beat until completely smooth and combined. Add confectioners\u2019 sugar, lemon juice, and vanilla extract with the mixer running on low. Increase to high speed and beat for 3 minutes. Add more confectioners\u2019 sugar if frosting is too thin, more lemon juice if frosting is too thick, or add a pinch of salt if frosting is too sweet. (I always add a pinch of salt!)\nAssemble and decorate\nUsing a large serrated knife, slice a thin layer off the tops of the cakes to create a flat surface. Discard (or crumble over ice cream!). Place 1 cake layer on your cake stand, cake turntable, or serving plate. Evenly cover the top with about 1 cup of frosting. Top with 2nd cake layer and evenly cover the top with about 1 cup of frosting. Top with the third cake layer. Spread the remaining frosting all over the top and sides. I like to top mine with homemade whipped cream (I used Wilton 8B piping tip).\nRefrigerate for at least 30-45 minutes before slicing. This helps the cake hold its shape when cutting.\nCover leftover cake tightly and store in the refrigerator for 5 days.",
+        "attributes": [],
+        "url": "https://sallysbakingaddiction.com/lemon-cake/"
+    },
+    {
+        "id": "f3b25d85-c495-4cb2-b6f8-aa83a6daefff",
+        "title": "Velout\u00e9 de chou-fleur",
+        "ingredients": [
+            "mixeur",
+            "beurre",
+            "1 oignon hach\u00e9",
+            "600 g de chou-fleur d\u00e9taill\u00e9 en bouquets",
+            "1 pomme de terre coup\u00e9e en d\u00e9s",
+            "8 dl de bouillon",
+            "1 cs de vinaigre ou de jus de citron",
+            "1,75 dl de cr\u00e8me",
+            "noix de muscade",
+            "sel",
+            "poivre",
+            "2 - 3 bouquets de chou-fleur coup\u00e9s en fines tranches",
+            "un peu de sel",
+            "beurre ou cr\u00e8me \u00e0 r\u00f4tir",
+            "0,5 dl de cr\u00e8me l\u00e9g\u00e8rement fouett\u00e9e"
+        ],
+        "instructions": "Soupe: faire revenir l'oignon dans le beurre. Ajouter le chou-fleur et la pomme de terre, mouiller avec le bouillon. Cuire 15-25 min. Mixer la soupe.\nAjouter la cr\u00e8me, assaisonner.\nD\u00e9coration: saisir bri\u00e8vement les tranches de chou-fleur dans le beurre \u00e0 r\u00f4tir, assaisonner.\nDresser la soupe. Ajouter le chou-fleur grill\u00e9 et la cr\u00e8me par-dessus.",
+        "attributes": [],
+        "url": "https://www.swissmilk.ch/fr/recettes-idees/recettes/LM200910_60_A/veloute-de-chou-fleur/"
+    },
+    {
+        "id": "3465888e-d130-4d6a-a597-478874132575",
+        "title": "Easy chocolate cake",
+        "ingredients": [
+            "200g golden caster sugar",
+            "200g unsalted butter softened plus extra for the tins",
+            "4 large eggs",
+            "200g self-raising flour",
+            "2 tbsp cocoa powder",
+            "1 tsp baking powder",
+            "\u00bd tsp vanilla extract",
+            "2 tbsp milk",
+            "100g milk chocolate chopped",
+            "200g butter softened",
+            "400g icing sugar",
+            "5 tbsp cocoa powder",
+            "2 tbsp milk",
+            "50g dark chocolate",
+            "25g milk chocolate",
+            "25g white chocolate"
+        ],
+        "instructions": "Heat oven to 190C/170C fan/gas 5. Butter the base and sides of two 20cm round sandwich tins and line the bases with baking parchment.\nIn a large bowl, beat together 200g golden caster sugar, 200g softened unsalted butter, 4 large eggs, 200g self-raising flour, 2 tbsp cocoa powder, 1 tsp baking powder, \u00bd tsp vanilla extract, 2 tbsp milk and a pinch of salt until pale.\nDivide the mixture between the prepared tins. Bake for 20 mins or until a skewer inserted into the centre of the cake comes out clean.\nLeave to cool in the tin for 10 mins, then turn out onto a wire rack to cool completely.\nFor the buttercream, put 100g chopped milk chocolate in a heatproof bowl and melt in the microwave, stirring every 30 secs. Leave the melted chocolate to cool for 5 mins.\nMash 200g softened butter and 400g icing sugar together with a fork, then switch to a wooden spoon or electric beaters, if you have them.\nSift in 5 tbsp cocoa powder with a pinch of salt and pour in the melted chocolate and 2 tbsp milk. Mix again until smooth.\nOn a cake stand or large plate, sandwich the cakes together with half of the buttercream, then spread the rest on top. Decorate with chocolate shards, if you like.\nTo make chocolate shards: melt 50g dark chocolate and pour it onto a tray lined with baking parchment or foil.\nNow melt 25g milk chocolate and 25g white chocolate and drizzle them over the dark chocolate before it sets.\nShake the tray gently to level the mixture then leave to set somewhere cool. Chop into shards.",
+        "attributes": [],
+        "url": "https://www.bbcgoodfood.com/recipes/easy-chocolate-cake"
+    },
+    {
+        "id": "9d0afe18-00c9-4469-a9d5-3488b7c340dc",
+        "title": "Mousse au chocolat facile",
+        "ingredients": [
+            "3 oeufs",
+            "100 g de chocolat noir",
+            "1 sachets de sucre vanill\u00e9 ou 1 pinc\u00e9e de sel"
+        ],
+        "instructions": "S\u00e9parer les blancs des jaunes d'oeufs.\nFaire ramollir le chocolat dans une casserole au bain-marie.\nHors du feu, incorporer les jaunes et le sucre.\nBattre les blancs en neige ferme.\nAjouter d\u00e9licatement les blancs au m\u00e9lange \u00e0 l'aide d'une spatule.\nVerser dans une terrine ou des verrines.\nMettre au frais 2h minimum.\nD\u00e9corer de cacao ou de chocolat r\u00e2p\u00e9\nD\u00e9guster",
+        "attributes": [],
+        "url": "https://www.marmiton.org/recettes/recette_mousse-au-chocolat-facile_13585.aspx"
+    },
+    {
+        "id": "c740d363-da63-47a2-927f-9fbd5508e9db",
+        "title": "Chocolate Cake",
+        "ingredients": [
+            "1 3/4 cups plain / all purpose flour",
+            "3/4 cup cocoa powder (, unsweetened (Note 2)",
+            "1 1/2 tsp baking powder",
+            "1 1/2 tsp baking soda (bi-carb soda)",
+            "2 cups white sugar (Note 1)",
+            "1 tsp salt",
+            "2 eggs (~55-65g / 2 oz each)",
+            "1 cup milk (low or full fat)",
+            "1/2 cup vegetable oil (or canola)",
+            "2 tsp vanilla extract",
+            "1 cup boiling water",
+            "1 1/2 batches Chocolate Buttercream Frosting (slide scaler on recipe)"
+        ],
+        "instructions": "Preheat oven to 180C\u00b0/350\u00b0F (160\u00b0C fan). Read Note 4 regarding shelf positions.\r\nGrease 2 x 22cm/9\" cake pans with butter, then line the base. (Note 3 re: springform pans and other pan sizes).\r\nBatter:\r\nSift flour, cocoa, baking powder and baking soda into a large bowl. Add Sugar and salt. Whisk briefly to combine.\r\nAdd eggs, milk, oil and vanilla. Whisk well to combine until lump free - about 30 seconds.\r\nAdd boiling water and whisk to incorporate. The batter is VERY thin (see video).\r\nPour batter into cake pans.\r\nBaking:\r\nBake for 35 minutes or until a wooden skewer inserted into the centre comes out clean. See Note 4 regarding cook time if pans are on different shelves.\r\nCool for 10 minutes, then turn out onto wire racks upside down (Note 5).\r\nCool completely before frosting. I frosted the cake with my Chocolate Buttercream Frosting (scale recipe up by 50%).",
+        "attributes": [
+            "dessert"
+        ],
+        "url": "https://www.recipetineats.com/chocolate-cake/"
+    }
+]

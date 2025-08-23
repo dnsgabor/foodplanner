@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Add New Recipe</h2>
+
+<form method="post">
+    <label for="title">Title:</label><br>
+    <input type="text" name="title" required><br><br>
+
+    <label for="ingredients">Ingredients (one per line):</label><br>
+    <textarea name="ingredients" rows="5" required></textarea><br><br>
+
+    <label for="instructions">Instructions:</label><br>
+    <textarea name="instructions" rows="5" required></textarea><br><br>
+
+    <label for="attributes">Attributes (comma separated):</label><br>
+    <input type="text" name="attributes" placeholder="e.g. dessert, easy, quick"><br><br>
+
+    <input type="submit" value="Add Recipe">
+</form>
+
+<hr>
+
+<h3>Add Recipe from URL</h3>
+<form method="post">
+    <label for="recipe_url">Recipe URL:</label><br>
+    <input type="url" name="recipe_url" placeholder="https://example.com/recipe" style="width:100%;"><br><br>
+    <input type="submit" value="Scrape Recipe">
+</form>
+{% endblock %}
