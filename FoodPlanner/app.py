@@ -1,156 +1,163 @@
-
-from flask import Flask, render_template, request, redirect, url_for
-import os, json
-from scraper import scrape_recipe   # <-- import scraper here
+import os
 import uuid
-
+from flask import Flask, render_template, request, redirect, url_for
+from pymongo import MongoClient
+from difflib import get_close_matches
+from scraper import scrape_recipe  # your new scraper.py
 
 app = Flask(__name__)
-DEBUG_SCRAPER = True  # Set to False in production
 
+@app.template_filter('nl2br')
+def nl2br_filter(s):
+    if not s:
+        return ''
+    return s.replace('\n', '<br>')
 
+# --- MongoDB setup ---
+MONGO_URI = os.environ.get("MONGO_URI")
+client = MongoClient(MONGO_URI)
+db = client["recipe_db"]
+recipes_collection = db["recipes"]
+
+# --- Helper functions ---
 def load_recipes():
-    file_path = os.path.join(os.path.dirname(__file__), "recipes.json")
-    if os.path.exists(file_path):
-        with open(file_path, "r") as f:
-            recipes = json.load(f)
-        # --- migrate missing fields ---
-        for r in recipes:
-            if "id" not in r: r["id"] = str(uuid.uuid4())
-            if "attributes" not in r: r["attributes"] = []
-            if "url" not in r: r["url"] = ""
-        # save back if we changed anything
-        save_recipes(recipes)
-        return recipes
-    else:
-         # Default recipes to populate the file if it doesn't exist
-        default_recipes = [
-            {
-                "id": str(uuid.uuid4()),
-                "title": "Spaghetti Bolognese",
-                "ingredients": ["spaghetti", "minced beef", "tomato sauce", "onion"],
-                "instructions": "Cook the spaghetti and mix with sauce.",
-                "attributes": [],
-                "url": ""
-            },
-            {
-                "id": str(uuid.uuid4()),
-                "title": "Pancakes",
-                "ingredients": ["flour", "milk", "eggs", "butter", "baking powder"],
-                "instructions": "Mix ingredients and cook in a pan.",
-                "attributes": ["dessert", "easy"],
-                "url": ""
-            }
-        ]
-        # Save the default recipes to 'recipes.json'
-        with open("recipes.json", "w") as f:
-            json.dump(default_recipes, f, indent=4)
-        return default_recipes  # Return the default recipes for display
+    return list(recipes_collection.find({}, {"_id": 0}))  # exclude MongoDB _id
+
+def save_recipe(recipe):
+    recipes_collection.insert_one(recipe)
+
+def update_recipe(recipe_id, data):
+    recipes_collection.update_one({"id": recipe_id}, {"$set": data})
+
+def delete_recipe(recipe_id):
+    recipes_collection.delete_one({"id": recipe_id})
+
+# --- Routes ---
+@app.route("/")
+def index():
+    recipes = load_recipes()
+    filter_input = request.args.get("filters", "").lower()
+
+    # --- Collect all attributes for autocomplete ---
+    all_attrs = set()
+    for r in recipes:
+        for attr in r.get("attributes", []):
+            all_attrs.add(attr)
+
+    filter_attrs = []
+    max_time_filter = None
+
+    if filter_input:
+        parts = [p.strip() for p in filter_input.split(",")]
+        for p in parts:
+            if p.startswith("<") and "min" in p:
+                try:
+                    max_time_filter = int(''.join(filter(str.isdigit, p)))
+                except:
+                    pass
+            else:
+                filter_attrs.append(p)
+
+    # --- Apply fuzzy attribute filter ---
+    if filter_attrs:
+        def match_attributes(recipe_attrs, filter_attrs):
+            recipe_attrs_lower = [a.lower() for a in recipe_attrs]
+            for f in filter_attrs:
+                # Use get_close_matches with cutoff=0.7 for reasonable tolerance
+                matches = get_close_matches(f, recipe_attrs_lower, n=1, cutoff=0.7)
+                if not matches:
+                    return False
+            return True
+
+        recipes = [r for r in recipes if match_attributes(r.get("attributes", []), filter_attrs)]
+
+    # --- Apply max time filter ---
+    if max_time_filter is not None:
+        def parse_time(time_str):
+            try:
+                return int(''.join(filter(str.isdigit, str(time_str))))
+            except:
+                return None
+        recipes = [r for r in recipes if (t:=parse_time(r.get("time"))) is not None and t <= max_time_filter]
+
+    # --- Sort alphabetically ---
+    recipes.sort(key=lambda r: r.get("title", "").lower())
+    return render_template("index.html", recipes=recipes)
 
 
-def save_recipes(recipes):
-    file_path = os.path.join(os.path.dirname(__file__), "recipes.json")
-    with open(file_path, "w") as f:
-        json.dump(recipes, f, indent=4)
-
+@app.route("/view_recipe/<recipe_id>")
+def view_recipe(recipe_id):
+    recipe = recipes_collection.find_one({"id": recipe_id}, {"_id": 0})
+    if not recipe:
+        return "Recipe not found", 404
+    return render_template("view_recipe.html", recipe=recipe)
 
 @app.route("/add_recipe", methods=["GET", "POST"])
 def add_recipe():
     if request.method == "POST":
-        # Check if it's a URL submission or manual form submission
-        recipe_url = request.form.get("recipe_url")
-        if recipe_url:
-            # Scrape the recipe from the URL
-            recipe_data = scrape_recipe(recipe_url)
+        url = request.form.get("recipe_url")
+        if url:
+            recipe_data = scrape_recipe(url)
             if recipe_data:
-                # Load existing recipes
-                recipes = load_recipes()
-                # Add the new recipe
-                recipes.append(recipe_data)
-                # Save the updated list back to the JSON file
-                save_recipes(recipes)
+                save_recipe(recipe_data)
                 return redirect(url_for("index"))
             else:
-                return "Failed to scrape the recipe, please try again."
+                return "Failed to scrape recipe"
 
-        # Manual recipe addition
-        title = request.form["title"]
-        ingredients = request.form["ingredients"].splitlines()
-        instructions = request.form["instructions"]
-        # Process attributes (comma separated)
-        attributes_raw = request.form.get("attributes", "")
-        attributes = [a.strip() for a in attributes_raw.split(",") if a.strip()]
+        # manual addition
+        title = request.form.get("title")
+        ingredients = request.form.get("ingredients", "").splitlines()
+        instructions = request.form.get("instructions", "")
+        servings = request.form.get("servings", "")
+        time = request.form.get("time", "")
+        attributes = request.form.get("attributes", "").splitlines()
 
-        new_recipe = {
+        recipe = {
             "id": str(uuid.uuid4()),
             "title": title,
             "ingredients": ingredients,
             "instructions": instructions,
+            "servings": servings,
+            "time": time,
             "attributes": attributes,
-            "url": ""
+            "url": "",
         }
-
-        # Load existing recipes
-        recipes = load_recipes()
-        # Add the new recipe
-        recipes.append(new_recipe)
-        # Save the updated list back to the JSON file
-        save_recipes(recipes)
-
+        save_recipe(recipe)
         return redirect(url_for("index"))
 
     return render_template("add_recipe.html")
 
 @app.route("/edit_recipe/<recipe_id>", methods=["GET", "POST"])
 def edit_recipe(recipe_id):
-    recipes = load_recipes()
-    recipe = next((r for r in recipes if r["id"] == recipe_id), None)
+    recipe = recipes_collection.find_one({"id": recipe_id}, {"_id": 0})
     if not recipe:
         return "Recipe not found", 404
 
     if request.method == "POST":
-        recipe["title"] = request.form["title"]
-        recipe["ingredients"] = request.form["ingredients"].splitlines()
-        recipe["instructions"] = request.form["instructions"]
-        attributes_raw = request.form.get("attributes", "")
-        recipe["attributes"] = [a.strip() for a in attributes_raw.split(",") if a.strip()]
+        title = request.form.get("title")
+        ingredients = request.form.get("ingredients", "").splitlines()
+        instructions = request.form.get("instructions", "")
+        servings = request.form.get("servings", "")
+        time = request.form.get("time", "")
+        attributes = request.form.get("attributes", "").splitlines()
 
-        save_recipes(recipes)
+        updated_data = {
+            "title": title,
+            "ingredients": ingredients,
+            "instructions": instructions,
+            "servings": servings,
+            "time": time,
+            "attributes": attributes,
+        }
+        update_recipe(recipe_id, updated_data)
         return redirect(url_for("view_recipe", recipe_id=recipe_id))
 
     return render_template("edit_recipe.html", recipe=recipe)
 
 @app.route("/delete_recipe/<recipe_id>", methods=["POST"])
-def delete_recipe(recipe_id):
-    recipes = load_recipes()
-    new_recipes = [r for r in recipes if r["id"] != recipe_id]
-    if len(new_recipes) == len(recipes):
-        return "Recipe not found", 404
-
-    save_recipes(new_recipes)
+def delete(recipe_id):
+    delete_recipe(recipe_id)
     return redirect(url_for("index"))
-
-
-@app.route("/")
-def index():
-    recipes = load_recipes()
-    recipes = sorted(recipes, key=lambda r: r["title"].lower())
-
-    # Optional attribute filter
-    attribute = request.args.get("attribute")
-    if attribute:
-        recipes = [r for r in recipes if attribute.lower() in [a.lower() for a in r.get("attributes", [])]]
-
-    return render_template("index.html", recipes=recipes, attribute=attribute)
-
-
-@app.route("/view_recipe/<recipe_id>")
-def view_recipe(recipe_id):
-    recipes = load_recipes()
-    recipe = next((r for r in recipes if r["id"] == recipe_id), None)
-    if not recipe:
-        return "Recipe not found", 404
-    return render_template("view_recipe.html", recipe=recipe)
 
 if __name__ == "__main__":
     app.run(debug=True)

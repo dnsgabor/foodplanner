@@ -23,7 +23,9 @@ def scrape_recipe(url: str):
             "title": scraper.title(),
             "ingredients": scraper.ingredients(),
             "instructions": scraper.instructions(),
-            "attributes": [],
+            "servings": scraper.yields(),
+            "time": scraper.total_time(),
+            "attributes": scraper.category().split(",") if scraper.category() else [],
             "url": url,
         }
     except WebsiteNotImplementedError:
@@ -61,11 +63,7 @@ def scrape_recipe(url: str):
                 continue
 
         if best_data:
-            title = best_data.get("name", "")
-            if not title or "swissmilk" in title.lower():
-                h1 = soup.find("h1")
-                title = h1.get_text(strip=True) if h1 else "Untitled Recipe"
-
+            title = best_data.get("name", "") or (soup.find("h1").get_text(strip=True) if soup.find("h1") else "Untitled Recipe")
             ingredients = best_data.get("recipeIngredient", [])
             raw_instructions = best_data.get("recipeInstructions", [])
             steps = []
@@ -83,6 +81,8 @@ def scrape_recipe(url: str):
                 "title": title,
                 "ingredients": ingredients,
                 "instructions": "\n".join(s for s in steps if s.strip()),
+                "servings": best_data.get("recipeYield", ""),
+                "time": best_data.get("totalTime", ""),
                 "attributes": [],
                 "url": url,
             }
@@ -97,11 +97,14 @@ def scrape_recipe(url: str):
             "title": title,
             "ingredients": ingredients,
             "instructions": instructions or "No instructions found",
+            "servings": "",
+            "time": "",
             "attributes": [],
             "url": url,
+
         }
 
     except Exception as e:
         if DEBUG_SCRAPER:
-            print(f"[DEBUG] Heuristic scraper error: {e}")
+            print(f"[DEBUG] Fallback scraper error: {e}")
         return None
